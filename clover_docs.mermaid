@@ -1,0 +1,15 @@
+sequenceDiagram
+    actor merchant
+    participant ReceptaFE
+    participant Clover
+    participant ReceptaBE
+    merchant->>Clover: Request to install recepta app
+    alt is user logged in on Clover
+        Clover->>ReceptaFE: Redirect /oauth_callback?merchant_id={MERCHANT_ID}&client_id={APP_ID}&code={AUTHORIZATION_CODE}
+        ReceptaFE->>ReceptaBE: login/register merchant
+    else is user not logged in on Clover:
+        ReceptaFE->>Clover: {{url}}/?client_id={APP_ID} - Redirect user to log in on Clover
+        Clover->>ReceptaFE: {{url}}/oauth_callback?merchant_id={MERCHANT_ID}&client_id={APP_ID}&code={AUTHORIZATION_CODE}
+        ReceptaFE->>ReceptaBE: login/register merchant
+    end
+    ReceptaFE->>ReceptaBE: get auth for merchant {{url}}/install?merchant_id={MERCHANT_ID}&client_id={APP_ID}&code={AUTHORIZATION_CODE}
