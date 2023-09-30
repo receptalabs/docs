@@ -1,0 +1,9 @@
+sequenceDiagram
+    actor MerchantDevice
+    participant ReceptaMobile
+    participant CloverSDK
+    participant ReceptaBE
+    CloverSDK->>ReceptaMobile: Order created event
+    ReceptaMobile->>ReceptaBE: Get order ID from the event and send GetDigitalReceipt(order_id,merchant_id)
+    ReceptaBE->>ReceptaMobile: Return link to latest digital receipt for the given order
+    ReceptaMobile->>MerchantDevice: Generate QR code for the returned link
